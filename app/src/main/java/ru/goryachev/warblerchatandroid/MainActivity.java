@@ -18,7 +18,7 @@ import android.text.format.DateFormat;
 public class MainActivity extends AppCompatActivity {
 
     private static int SIGN_IN_CODE = 1;
-    private FirebaseListAdapter<ChatMessage> adapter;
+    private FirebaseListAdapter<ChatMessage> listAdapter;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayAllMessages() {
         ListView messagesList = findViewById(R.id.messagesList);
-        adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class, R.layout.list_item, FirebaseDatabase.getInstance().getReference()) {
+        listAdapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class, R.layout.list_item, FirebaseDatabase.getInstance().getReference()) {
             @Override
             protected void populateView(View view, ChatMessage mModel, int position) {
                 TextView messageUser;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+        messagesList.setAdapter(listAdapter);
 
     }
 
