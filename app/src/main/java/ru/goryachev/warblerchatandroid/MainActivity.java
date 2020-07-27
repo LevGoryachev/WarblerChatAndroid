@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import android.text.format.DateFormat;
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static int SIGN_IN_CODE = 1;
     private FirebaseListAdapter<ChatMessage> listAdapter;
+    private ImageButton sendBtn;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -38,6 +42,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sendBtn = findViewById(R.id.sendButton);
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editField = findViewById(R.id.editText);
+
+                if (editField.getText().toString() == "")
+                    return;
+
+                FirebaseDatabase.getInstance().getReference().push().setValue(new ChatMessage(FirebaseAuth.getInstance().getCurrentUser().getEmail(), editField.getText().toString()));
+                editField.setText("");
+            }
+        });
 
     }
 
