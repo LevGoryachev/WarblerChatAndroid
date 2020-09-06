@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
                 displayAllMessages();
             } else {
                 toastNotLoggedIn();
-                finish();
+                //finish();
+                this.finish();
             }
         }
     }
